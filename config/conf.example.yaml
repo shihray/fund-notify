@@ -1,0 +1,7 @@
+fund:
+    DaBa:
+        name: "安聯台灣大壩基金"
+        url: "https://fund.cnyes.com/chart/chartstudy.aspx?code=A36001&mobile=true&country=fund&market=A&divwidth=150%25&divheight=700"
+    SoEe:
+        name: "安聯收益成長基金-AM"
+        url: "https://fund.cnyes.com/chart/chartstudy.aspx?code=B20%2C073&mobile=true&country=fund&market=B&divwidth=150%25&divheight=700"
