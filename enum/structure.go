@@ -4,6 +4,8 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 )
 
 type RespSt struct {
@@ -20,7 +22,12 @@ type Config struct {
 
 func (c *Config) GetConf() *Config {
 
-	yamlFile, err := ioutil.ReadFile("config/conf.yaml")
+	path, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	yamlFile, err := ioutil.ReadFile(path + "/config/conf.yaml")
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}

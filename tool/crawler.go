@@ -43,7 +43,7 @@ func GetWebKValue(url string) string {
 
 	if err := chromedp.Run(timeoutCtx, chromedp.Tasks{
 		chromedp.Navigate(url),
-		chromedp.Evaluate(`globalData[244].KD_K`, &res, chromedp.EvalAsValue),
+		chromedp.Evaluate(`globalData[globalData.length - 1].KD_K`, &res, chromedp.EvalAsValue),
 	}); err != nil {
 		log.Fatal(err)
 		return ""
