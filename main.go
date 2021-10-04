@@ -5,9 +5,13 @@ import (
 	"github.com/shopspring/decimal"
 	"stocker/enum"
 	"stocker/tool"
+	"strings"
 )
 
-var conf enum.Config
+var (
+	conf enum.Config
+	msg  string
+)
 
 func init() {
 	// Load yaml file
@@ -22,15 +26,23 @@ func main() {
 
 	for _, info := range conf.Fund {
 		value := tool.GetWebKValue(info.Url)
-		fmt.Println(info.Name + ": K9值:" + value)
+
+		strSplit := strings.Split(value, "|")
+
+		fmt.Println(info.Name + ": K9值:" + strSplit[0] + " 價位:" + strSplit[1])
 
 		kdkDec, _ := decimal.NewFromString(value)
 		if kdkDec.LessThan(decimal.NewFromFloat(30)) {
-			msg := fmt.Sprintf("%v: K9值:%v", info.Name, value)
-			// line Notify
-			if err := tool.LineNotify(msg); err != nil {
-				fmt.Println("line notify err:", err.Error())
+			_str := fmt.Sprintf("%v: K9值:%v, 價位:%v", info.Name, strSplit[0], strSplit[1])
+			if msg == "" {
+				msg = _str
+			} else {
+				msg = fmt.Sprintf("%v\n%v", msg, _str)
 			}
 		}
+	}
+	// line Notify
+	if err := tool.LineNotify(msg); err != nil {
+		fmt.Println("line notify err:", err.Error())
 	}
 }
