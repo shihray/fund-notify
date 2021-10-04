@@ -18,6 +18,7 @@ type Config struct {
 		Name string `yaml:"name"`
 		Url  string `yaml:"url"`
 	} `yaml:"fund"`
+	Token string `yaml:"token"`
 }
 
 func (c *Config) GetConf() *Config {

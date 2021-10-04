@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func LineNotify(msg string) error {
+func LineNotify(token, msg string) error {
 
 	url := "https://notify-api.line.me/api/notify"
 	method := "POST"
@@ -31,7 +31,7 @@ func LineNotify(msg string) error {
 		fmt.Println(err)
 		return err
 	}
-	req.Header.Add("Authorization", "Bearer OBqVUm8gUViJvLNVGFd8EZxNgZH4V4a77yJkyhNznua")
+	req.Header.Add("Authorization", "Bearer "+token)
 
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	res, err := client.Do(req)

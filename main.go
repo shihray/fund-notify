@@ -42,7 +42,7 @@ func main() {
 		}
 	}
 	// line Notify
-	if err := tool.LineNotify(msg); err != nil {
+	if err := tool.LineNotify(conf.Token, msg); err != nil {
 		fmt.Println("line notify err:", err.Error())
 	}
 }
