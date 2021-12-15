@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/shopspring/decimal"
 	"stocker/enum"
 	"stocker/tool"
+	"strconv"
 	"strings"
+
+	"github.com/shopspring/decimal"
 )
 
 var (
@@ -29,22 +31,27 @@ func main() {
 
 		strSplit := strings.Split(value, "|")
 
-		fmt.Println(info.Name + ": K9值:" + strSplit[0] + " 價位:" + strSplit[1])
-
 		kdkDec, _ := decimal.NewFromString(strSplit[0])
-		_str := fmt.Sprintf("\n%v: K9值:%v, 價位:%v", info.Name, strSplit[0], strSplit[1])
-		if kdkDec.LessThan(decimal.NewFromFloat(30)) {
+
+		kfloat, _ := strconv.ParseFloat(strSplit[0], 64)
+		pricefloat, _ := strconv.ParseFloat(strSplit[1], 64)
+
+		fmt.Printf("%v: K9值:%0.2f, 價位:%.2f\n", info.Name, kfloat, pricefloat)
+
+		_str := fmt.Sprintf("\n%v: K9值:%0.2f, 價位:%.2f", info.Name, kfloat, pricefloat)
+		if kdkDec.LessThan(decimal.NewFromFloat(20)) {
 			msg += _str
 		}
 		allMsg += _str
 	}
-	// line Notify
-	if err := tool.LineNotify(conf.Token, msg); err != nil {
-		fmt.Println("line notify err:", err.Error())
-	}
 
 	if *alwaysSend {
 		if err := tool.LineNotify(conf.Token, allMsg); err != nil {
+			fmt.Println("line notify err:", err.Error())
+		}
+	} else {
+		// line Notify
+		if err := tool.LineNotify(conf.Token, msg); err != nil {
 			fmt.Println("line notify err:", err.Error())
 		}
 	}
